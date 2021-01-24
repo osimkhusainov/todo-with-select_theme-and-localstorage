@@ -90,14 +90,18 @@ p
   const ul = document.querySelector(".list-group");
   const themeSelect = document.querySelector("#themeSelect");
   let todos;
-  let lastSelectedTheme = localStorage.getItem('add_theme') || "default";
+  let lastSelectedTheme = localStorage.getItem("theme") || "default";
   function toLocal() {
     todos = ul.innerHTML;
     localStorage.setItem("todo", JSON.stringify(todos));
   }
+  function toThemeLocal() {
+    todos = themeSelect.value;
+    localStorage.setItem("theme", todos);
+  }
 
   renderAllTasks(objOfTasks);
-  setTheme(lastSelectedTheme)
+  setTheme(lastSelectedTheme);
   form.addEventListener("submit", onFormSubmitHandler);
   ul.addEventListener("click", onDeletehandler);
   themeSelect.addEventListener("change", onThemeSelectHandler);
@@ -183,7 +187,7 @@ p
     }
     setTheme(selectedTheme);
     lastSelectedTheme = selectedTheme;
-    localStorage.setItem('add_theme', selectedTheme)
+    toThemeLocal();
   }
   function setTheme(name) {
     const selectedThemObj = themes[name];
@@ -193,5 +197,8 @@ p
   }
   if (localStorage.getItem("todo")) {
     ul.innerHTML = JSON.parse(localStorage.getItem("todo"));
+  }
+  if (localStorage.getItem("theme")) {
+    themeSelect.value = localStorage.getItem("theme");
   }
 })(tasks);
